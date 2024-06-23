@@ -1,11 +1,11 @@
 /**
- * Section: Initialize qrcode and canvas
+ * Section: Initialize qrcode 
  */
 var canvas = false;
 
 var qrcode = new QRCode("qrcode", {
-    width: 500, 
-    height: 500,
+    width: 1000, 
+    height: 1000,
     colorDark: "#000000",
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.L,
@@ -166,7 +166,7 @@ function makeCode() {
     ctx = canvas.getContext("2d");
 
     // QR code sizing
-    bitLength = 10;
+    bitLength = 40;
     canvasLength = bitLength * (QRLength + borderSizeValue * 2);
     canvas.width = canvasLength;
     canvas.height = canvasLength;
