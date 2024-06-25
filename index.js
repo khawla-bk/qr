@@ -1,27 +1,25 @@
 /**
- * Section: Initialize qrcode 
+ * Section: Initialize QR Code
  */
-var canvas = false;
+let canvas = false;
 
-var qrcode = new QRCode("qrcode", {
-    width: 1000, 
+const qrcode = new QRCode("qrcode", {
+    width: 1000,
     height: 1000,
     colorDark: "#000000",
     colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.L,
+    correctLevel: QRCode.CorrectLevel.L
 });
 
 /**
- * Section: Code to handle inputs 
+ * Section: Code to handle inputs
  */
 
 // Size of QR Code squares
-var sizeSlider = document.getElementById("radiusSize");
-var sizeOutput = document.getElementById("printSize");
-
-// Display the default slider value and grab it
+const sizeSlider = document.getElementById("radiusSize");
+const sizeOutput = document.getElementById("printSize");
 sizeOutput.innerHTML = sizeSlider.value;
-var radiusRatio = sizeSlider.value / 200;
+let radiusRatio = sizeSlider.value / 200;
 
 // Update the current slider value
 sizeSlider.oninput = function () {
@@ -30,40 +28,39 @@ sizeSlider.oninput = function () {
 };
 
 // Level of error correction (low, medium, high) (excluding quartile)
-var correctionSlider = document.getElementById("errorCorrection");
-var correctionOutput = document.getElementById("printCorrection");
-
-// Display the default slider value and grab it
+const correctionSlider = document.getElementById("errorCorrection");
+const correctionOutput = document.getElementById("printCorrection");
 correctionOutput.innerHTML = correctionSlider.value;
-var correctionLevel = correctionSlider.value;
-if (correctionLevel === "1") {
-    qrcode._htOption.correctLevel = QRCode.CorrectLevel.L;
-} else if (correctionLevel === "2") {
-    qrcode._htOption.correctLevel = QRCode.CorrectLevel.M;
-} else if (correctionLevel === "3") {
-    qrcode._htOption.correctLevel = QRCode.CorrectLevel.H;
-}
+let correctionLevel = correctionSlider.value;
 
-// Update the current slider value
+const updateCorrectionLevel = (level) => {
+    switch (level) {
+        case "1":
+            qrcode._htOption.correctLevel = QRCode.CorrectLevel.L;
+            break;
+        case "2":
+            qrcode._htOption.correctLevel = QRCode.CorrectLevel.M;
+            break;
+        case "3":
+            qrcode._htOption.correctLevel = QRCode.CorrectLevel.H;
+            break;
+    }
+};
+updateCorrectionLevel(correctionLevel);
+
 correctionSlider.oninput = function () {
     correctionOutput.innerHTML = this.value;
-    correctionLevel = correctionSlider.value;
-    if (correctionLevel === "1") {
-        qrcode._htOption.correctLevel = QRCode.CorrectLevel.L;
-    } else if (correctionLevel === "2") {
-        qrcode._htOption.correctLevel = QRCode.CorrectLevel.M;
-    } else if (correctionLevel === "3") {
-        qrcode._htOption.correctLevel = QRCode.CorrectLevel.H;
-    }
+    correctionLevel = this.value;
+    updateCorrectionLevel(correctionLevel);
 };
 
 // Size of white border (quiet zone)
-var borderSlider = document.getElementById("borderSize");
-var borderOutput = document.getElementById("printBorderSize");
-borderOutput.innerHTML = borderSlider.value; // Display the default slider value
-var borderSizeValue = Number(borderSlider.value);
+const borderSlider = document.getElementById("borderSize");
+const borderOutput = document.getElementById("printBorderSize");
+borderOutput.innerHTML = borderSlider.value;
+let borderSizeValue = Number(borderSlider.value);
 
-// Update the current slider value (each time you drag the slider handle)
+// Update the current slider value
 borderSlider.oninput = function () {
     borderOutput.innerHTML = this.value;
     borderSizeValue = Number(this.value);
@@ -73,125 +70,68 @@ borderSlider.oninput = function () {
  * Section: Helper functions for visualizing QR code
  */
 
-/**
- * Check whether bit at current position should be full sized.
- * In particular, make the position bits (corners) full sized.
- *
- * @param {i} The current bit's row.
- * @param {j} The current bit's column.
- * @param {QRLength} The length of the QR code.
- * @return {isPosition} Whether or not the current bit is safe to modify.
- */
-function isSafeBit(i, j, QRLength) {
-    // Currently hard coding position bits
-    lowerLimit = 7 + borderSizeValue;
-    upperLimit = QRLength - 8 + borderSizeValue;
-    if (i < lowerLimit && j < lowerLimit) {
-        return false;
-    } else if (i > upperLimit && j < lowerLimit) {
-        return false;
-    } else if (i < lowerLimit && j > upperLimit) {
-        return false;
-    }
+const isSafeBit = (i, j, QRLength) => {
+    const lowerLimit = 7 + borderSizeValue;
+    const upperLimit = QRLength - 8 + borderSizeValue;
+    return !(i < lowerLimit && j < lowerLimit || i > upperLimit && j < lowerLimit || i < lowerLimit && j > upperLimit);
+};
 
-    return true;
-}
-
-/**
- * Draw basic shape representing each bit of the QR code.
- *
- * @param {ctx} Context of associated canvas.
- * @param {i} The current bit's row.
- * @param {j} The current bit's column.
- * @param {bitLength} The maximum length of each bit.
- * @param {radiusRatio} The radius should be this ratio times the bitLength.
- *  The ratio should be between 0 and 0.5.
- * @param {QRLength} The length of the QR code.
- */
-function drawShape(ctx, i, j, bitLength, radiusRatio, QRLength) {
-    // Draw centered
-    xCenter = bitLength * (i + 0.5);
-    yCenter = bitLength * (j + 0.5);
-
+const drawShape = (ctx, i, j, bitLength, radiusRatio, QRLength) => {
+    const xCenter = bitLength * (i + 0.5);
+    const yCenter = bitLength * (j + 0.5);
     if (!isSafeBit(i, j, QRLength)) {
         radiusRatio = 0.5;
     }
-    radius = bitLength * radiusRatio;
-
+    const radius = bitLength * radiusRatio;
     ctx.fillRect(xCenter - radius, yCenter - radius, 2 * radius, 2 * radius);
-}
+};
 
 /**
  * Download the QR code as a PNG
  */
-function download() {
-    // Download image
+const download = () => {
     if (!canvas) {
         alert("Error: no QR code to download");
         return;
     }
-    var link = document.getElementById("link");
+    const link = document.getElementById("link");
     link.setAttribute("download", "qr_image.png");
-    link.setAttribute(
-        "href",
-        canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
-    );
+    link.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
     link.click();
-}
+};
 
 /**
  * Make the QR code
  */
-function makeCode() {
-    // Grab url input
-    elementText = document.getElementById("text");
-    url = elementText.value;
-
-    // Check for non-empty url
+const makeCode = () => {
+    const elementText = document.getElementById("text");
+    const url = elementText.value;
     if (!url) {
         alert("Error: empty input");
         elementText.focus();
         return;
     }
 
-    // Generate URL bits
     qrcode.makeCode(url);
 
-    // Manually draw canvas
-    QRMatrix = qrcode._oQRCode.modules;
-    QRLength = QRMatrix.length;
+    const QRMatrix = qrcode._oQRCode.modules;
+    const QRLength = QRMatrix.length;
 
-    // Form canvas
     canvas = document.getElementById("myCanvas");
-    ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
 
-    // QR code sizing
-    bitLength = 40;
-    canvasLength = bitLength * (QRLength + borderSizeValue * 2);
+    const bitLength = 40;
+    const canvasLength = bitLength * (QRLength + borderSizeValue * 2);
     canvas.width = canvasLength;
     canvas.height = canvasLength;
 
+    const black = "#000000";
+    const white = "#FFFFFF";
 
-    // Colors of true and false bits
-    black = "#000000";
-    white = "#FFFFFF";
-
-    // Populate canvas with bits
     for (let i = 0; i < QRLength; i++) {
         for (let j = 0; j < QRLength; j++) {
-            if (QRMatrix[i][j]) {
-                ctx.fillStyle = black;
-            } else {
-                ctx.fillStyle = white;
-            }
-            drawShape(
-                ctx,
-                j + borderSizeValue,
-                i + borderSizeValue,
-                bitLength,
-                radiusRatio,
-                QRLength
-            );
+            ctx.fillStyle = QRMatrix[i][j] ? black : white;
+            drawShape(ctx, j + borderSizeValue, i + borderSizeValue, bitLength, radiusRatio, QRLength);
         }
     }
-}
+};
