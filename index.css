@@ -125,15 +125,15 @@ input[type="file"]:focus {
 
 /* Styling for the buttons */
 button {
-    background-color: #0d4677;
-    color: white;
+    background-color: #0d4677 !important;
+    color: white !important;
     padding: 15px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s, transform 0.3s;
-    margin-top: 20px;
+    margin: 20px 0 !important;
     align-self: center;
 }
 
