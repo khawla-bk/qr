@@ -2,58 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
-    <div class="center" style="width: 50%; margin: auto;">
-    <div>
-    </br>
-    </div>
-        <div class="input-group">
-            <label for="text">URL:</label>
-            <input class="w3-input" id="text" type="text">
+    <div class="container">
+        <label for="imageLoader">Upload Image File here:</label>
+        <input type="file" id="imageLoader" name="imageLoader" />
+
+        <div class="center">
+            <canvas id="imageCanvas"></canvas>
         </div>
 
-        <div class="slidecontainer tooltip">
-            <h6>Bit size:</h6>
-            <span id="printSize"></span>
-            <input type="range" min="10" max="100" value="42" class="slider" id="radiusSize">
-        </div>
+        <label for="text">URL*:</label>
+        <input class="w3-input" id="text" type="text" />
 
-        <div class="slidecontainer tooltip">
-            <h6>Error Correction:</h6>
-            <span id="printCorrection"></span>
-            <input type="range" min="1" max="3" value="3" class="slider" id="errorCorrection">
-        </div>
+        <br />
 
-        <div class="slidecontainer tooltip">
-            <h6>Border Size:</h6>
-            <span id="printBorderSize"></span>
-            <input type="range" min="0" max="5" value="0" class="slider" id="borderSize">
+        <div>
+            Bit size: <span id="printSize"></span>
         </div>
+        <br />
 
-        <div class="button-container">
-            <button class="w3-button w3-white w3-border w3-border-blue" onclick="makeCode()">
-                Generate QR code
-            </button>
+        <div class="slidecontainer">
+            <input type="range" min="10" max="100" value="42" class="slider" id="radiusSize" />
         </div>
+        <br />
 
-        <div class="canvas-container">
+        <div>
+            Error Correction: <span id="printCorrection"></span>
+        </div>
+        <br />
+
+        <div class="slidecontainer">
+            <input type="range" min="1" max="3" value="3" class="slider" id="errorCorrection" />
+        </div>
+        <br />
+
+        <div>
+            Border Size: <span id="printBorderSize"></span>
+        </div>
+        <br />
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="5" value="0" class="slider" id="borderSize" />
+        </div>
+        <br />
+
+        <div class="center">
+            <button class="w3-button" onclick="makeCode()">Generate QR code</button>
+        </div>
+        <br />
+
+        <div class="center">
             <canvas id="myCanvas"></canvas>
         </div>
+        <br />
 
-        <div class="button-container">
-            <button class="w3-button w3-white w3-border w3-border-blue" onclick="download()">
-                Download PNG
-            </button>
+        <div class="center">
+            <button class="w3-button" onclick="download()">Download PNG</button>
         </div>
     </div>
 
     <a id="link" style="display: none;"></a>
     <div id="qrcode" style="display: none;"></div>
+    
     <script src="qrcode.js"></script>
     <script src="index.js"></script>
 </body>
