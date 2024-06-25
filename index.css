@@ -1,13 +1,38 @@
+/* Reset some basic elements */
+body, h1, h2, h3, p, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+    color: #333;
+}
+
+body {
+    padding: 20px;
+    background-color: #e0f7fa; /* Light cyan background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 /* Basic styling for the container */
 .container {
-    position: relative;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    padding: 30px;
     width: 90%;
     max-width: 600px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* Centering content vertically and horizontally */
@@ -21,61 +46,111 @@
 /* Full-width container for sliders */
 .slidecontainer {
     width: 100%;
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 /* Styling for the slider, including a fancy gradient */
 .slider {
     width: 100%;
     height: 25px;
-    background: linear-gradient(145deg, #62e2a2, #1ebea5);
+    background: linear-gradient(145deg, #64b5f6, #1e88e5); /* Light blue to blue gradient */
     outline: none;
+    border-radius: 10px;
     opacity: 0.9;
     transition: background 0.3s, opacity 0.2s;
 }
 
 .slider:hover {
     opacity: 1;
-    background: linear-gradient(145deg, #53d193, #17a287);
+    background: linear-gradient(145deg, #42a5f5, #1976d2); /* Darker blue gradient */
 }
 
 /* Slider thumb styling for a modern look */
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     background: #ffffff;
-    border: 3px solid #1ebea5;
+    border: 3px solid #1e88e5; /* Blue border */
     border-radius: 50%;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
 }
 
 .slider::-webkit-slider-thumb:hover {
-    background: #1ebea5;
-    transform: scale(1.1);
+    background: #1e88e5; /* Blue background */
+    transform: scale(1.2);
 }
 
 .slider::-moz-range-thumb {
     width: 20px;
     height: 20px;
     background: #ffffff;
-    border: 3px solid #1ebea5;
+    border: 3px solid #1e88e5; /* Blue border */
     border-radius: 50%;
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
 }
 
 .slider::-moz-range-thumb:hover {
-    background: #1ebea5;
-    transform: scale(1.1);
+    background: #1e88e5; /* Blue background */
+    transform: scale(1.2);
 }
 
 /* Utility for center alignment */
 .center {
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #333;
+}
+
+/* Styling for the input fields */
+input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: #1e88e5; /* Blue border on focus */
+}
+
+/* Styling for the buttons */
+button {
+    background-color: #1e88e5; /* Blue background */
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 20px;
+    align-self: center;
+}
+
+button:hover {
+    background-color: #1976d2; /* Darker blue background */
+    transform: scale(1.05);
+}
+
+/* Add subtle animation for the container */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.container {
+    animation: fadeIn 0.5s ease-in-out;
 }
